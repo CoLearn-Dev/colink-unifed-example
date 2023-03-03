@@ -1,0 +1,18 @@
+[package]
+name = "unifed-example"
+version = "0.0.0"
+keywords = ["federated learning", "machine learning"]
+description = "Example UniFed protocol."
+language = "python"
+install_script = """
+if { conda env list | grep 'colink-protocol-unifed-example'; } >/dev/null 2>&1; then
+    conda env remove -n colink-protocol-unifed-example
+fi
+conda create -n colink-protocol-unifed-example python=3.9 -y
+conda activate colink-protocol-unifed-example
+pip install .
+"""
+entrypoint = """
+conda activate colink-protocol-unifed-example
+unifed-example
+"""
