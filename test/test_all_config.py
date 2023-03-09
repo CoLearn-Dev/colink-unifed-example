@@ -27,6 +27,8 @@ def simulate_with_config(config_file_path):
     def G(key):
         r = cl.read_entry(f"{UNIFED_TASK_DIR}:{task_id}:{key}")
         if r is not None:
+            if key == "log":
+                return [json.loads(l) for l in r.decode().split("\n") if l != ""]
             return r.decode() if key != "return" else json.loads(r)
     for cl in cls:
         cl.wait_task(task_id)
@@ -47,13 +49,16 @@ def test_load_config():
 
 @pytest.mark.parametrize("config_file_path", glob.glob("test/configs/*.json"))
 def test_with_config(config_file_path):
+    if "skip" in config_file_path:
+        pytest.skip("Skip this test case")
     results = simulate_with_config(config_file_path)
-    assert all([r["error"] is None and r["return"]["returncode"] == 0 for r in results.values()])
+    assert all([r["error"] is None and r["return"]["returncode"] == 0 for r in results[1].values()])
 
 
 if __name__ == "__main__":
     from pprint import pprint
     import time
     nw = time.time()
-    pprint(simulate_with_config("test/configs/case_0.json"))
+    target_case = "test/configs/case_0.json"
+    print(json.dumps(simulate_with_config(target_case), indent=2))
     print("Time elapsed:", time.time() - nw)

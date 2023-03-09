@@ -135,3 +135,5 @@ dmypy.json
 # Coding env
 .idea/
 notes.md
+log/
+temp.json

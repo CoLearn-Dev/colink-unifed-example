@@ -10,7 +10,8 @@ setup(name=f'colink-unifed-{FRAMEWORK_NAME}',
           'src', exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
       package_dir={'': 'src'},
       install_requires=[
-          'colink >= 0.2.6',
+          'colink >= 0.3.0',
+          "flbenchmark",
       ],
       entry_points={
           'console_scripts': [
