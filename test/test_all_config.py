@@ -13,11 +13,11 @@ def simulate_with_config(config_file_path):
         config = json.load(cf)
     # use instant server for simulation
     ir = CL.InstantRegistry()
-    # TODO: confirm the format of `participants``
     config_participants = config["deployment"]["participants"]
     cls = []
     participants = []
-    for _, role in config_participants:  # given user_ids are omitted and we generate new ones here
+    for p in config_participants:  # given user_ids are omitted and we generate new ones here
+        role = p["role"]
         cl = CL.InstantServer().get_colink().switch_to_generated_user()
         pop.run_attach(cl)
         participants.append(CL.Participant(user_id=cl.get_user_id(), role=role))
